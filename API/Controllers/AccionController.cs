@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Aplicacion;
+using Aplicacion.Acciones;
+using Dominio;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -9,11 +13,43 @@ namespace API.Controllers
     [Route("accion")]
     public class AccionController: ControllerBase
     {
-        [HttpGet]
-        public List<string> GetListado()
+        private readonly IUnitOfWork unitOfWork;
+
+        public AccionController(IUnitOfWork unitOfWork)
         {
-            List<string> listado = new(){"Mario", "Luigi", "Zelda", "Link"};
-            return listado;
+            this.unitOfWork = unitOfWork;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetListado()
+        {
+           var data = await unitOfWork.Acciones.ObtenerListado();
+           return Ok(data);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var data = await unitOfWork.Acciones.ObtenerPorId(id);
+            
+            if (data == null) return NotFound($"No se encontró un recurso con el ID: {id}");
+            
+            return Ok(data);
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var existeAccion = await unitOfWork.Acciones.ObtenerPorId(id);
+            if (existeAccion is null)
+            {
+                return NotFound();
+            }
+
+            var resultado = await unitOfWork.Acciones.Borrar(id);
+
+            return NoContent();
         }
     }
 }
