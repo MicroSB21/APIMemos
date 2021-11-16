@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("accion")]
+    [Route("api/accion")]
     public class AccionController: ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;
