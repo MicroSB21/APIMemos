@@ -32,6 +32,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddInfraestructure();
             services.AddControllers( options => {
                 options.Filters.Add<ValidationFilter>();

@@ -41,11 +41,17 @@ namespace Infraestructura.Repository
 
         public async Task<int> Actualizar(Accion entity)
         {
-            var sqlActualizar = "UPDATE TB_Accion set Descripcion = @descripcion where ID = @id";
+            var sqlActualizar = "UPDATE TB_Accion set Descripcion = @descripcion, Activo = @activo where ID = @id";
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
-                var result = await dbConnection.ExecuteScalarAsync<int>(sqlActualizar, new {descripcion = entity.Descripcion , id = entity.ID});
+                var result = await dbConnection.ExecuteScalarAsync<int>(sqlActualizar, 
+                    new {
+                            descripcion = entity.Descripcion , 
+                            id = entity.ID,
+                            activo = entity.Activo
+                        }
+                );
                 return result;
             }
         }
