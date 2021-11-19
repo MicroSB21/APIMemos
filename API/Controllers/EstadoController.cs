@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Aplicacion.Acciones;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -11,12 +12,7 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult GetListado()
         {
-           var data = new[]{
-               new{ Id = 1, Descripcion = "Activo", estaActivo = true },
-               new{ Id = 2, Descripcion = "Inactivo", estaActivo = true },
-               new{ Id = 3, Descripcion = "Pendiente", estaActivo = true },
-           };
-           return Ok(data);
+            return Ok();
         }
     }
 }
